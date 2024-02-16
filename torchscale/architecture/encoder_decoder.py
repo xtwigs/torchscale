@@ -47,14 +47,21 @@ class EncoderDecoder(nn.Module):
         self,
         src_tokens,
         prev_output_tokens,
+        encoder_padding_mask=None,
+        self_attn_padding_mask=None,
         return_all_hiddens=False,
         features_only=False,
         **kwargs
     ):
-        encoder_out = self.encoder(src_tokens, return_all_hiddens=return_all_hiddens)
+        encoder_out = self.encoder(
+            src_tokens,
+            encoder_padding_maks=encoder_padding_mask,
+            return_all_hiddens=return_all_hiddens,
+        )
         decoder_out = self.decoder(
             prev_output_tokens,
             encoder_out=encoder_out,
+            self_attn_padding_mask=self_attn_padding_mask,
             features_only=features_only,
             return_all_hiddens=return_all_hiddens,
         )
